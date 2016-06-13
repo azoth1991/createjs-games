@@ -9,7 +9,7 @@ createjs.Ticker.addEventListener("tick",stage);
 var gameView = new createjs.Container();
 gameView.x = 200;
 gameView.y = 200;
-var gameWN = 20,gameHN = 20,timer= 0,der= 0;
+var gameWN = 20,gameHN = 20,der= 0;
 
 stage.addChild(gameView);
 var rectArr = [];
@@ -52,23 +52,57 @@ function handleTick(event) {
     var start = snake[0];
     var w,h;
     var eat=false;
-    for(var i=0;i<snake.length;i++){
-        if(der == 0){
-            w = snake[i].w;
-            snake[i].w++;
-            h = snake[i].h;
-        }
+    switch (der){
+        case 0:
+            w = start.w;
+            start.w++;
+            h = start.h;
+            break;
+        case 1:
+            w = start.w;
+            start.w--;
+            h = start.h;
+            break;
+        case 2:
+            w = start.w;
+            h = start.h;
+            start.h++;
+            break;
+        case 3:
+            w = start.w;
+            h = start.h;
+            start.h--;
+            break;
     }
     snake.push({w:w, h:h});
-    for(var i=0;i<snake.length;i++){
-        if(snake[i].w==ball[0]&&snake[i].h==ball[1]){
-            ball = [1,1];
-            eat = true;
-        }
-    }
-    if(!eat){
-        snake.pop();
+    if(start.w==ball[0]&&start.h==ball[1]){
+        ball = [Math.round(Math.random()*10),Math.round(Math.random()*10)];
+        eat = true;
+    } else {
+        snake.splice(1,1);
     }
     render();
 }
-stage.addEventListener()
+window.onkeydown = handleKeyDown;
+var ARROW_KEY_UP=38;
+var ARROW_KEY_DOWN=40;
+var ARROW_KEY_LEFT=37;
+var ARROW_KEY_RIGHT=39;
+function handleKeyDown(e){
+    e = !e ? window.event : e;
+    console.log(e.keyCode);
+    switch(e.keyCode){
+        case ARROW_KEY_UP:
+            der = 3;
+            break;
+        case ARROW_KEY_DOWN:
+            der = 2;
+            break;
+        case ARROW_KEY_LEFT:
+            der = 1;
+            break;
+        case ARROW_KEY_RIGHT:
+            der = 0;
+            break;
+    }
+}
