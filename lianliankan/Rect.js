@@ -1,18 +1,5 @@
 function Rect(){
     createjs.Shape.call(this);
-    this.setRectType = function(type){
-        switch (type){
-            case 1:
-                this.setColor("#cccccc");
-                break;
-            case 2:
-                this.setColor("#ff6600");
-                break;
-            case 3:
-                this.setColor("#0000ff");
-                break;
-        }
-    }
 
     this.setColor = function (colorString){
         this.graphics.beginFill(colorString);
@@ -23,6 +10,5 @@ function Rect(){
     this.getRectType = function(){
         return this._RectType;
     }
-    this.setRectType(1);
 }
 Rect.prototype = new createjs.Shape();
