@@ -7,9 +7,7 @@ createjs.Ticker.setFPS(30);
 createjs.Ticker.addEventListener("tick",stage);
 
 var gameView = new createjs.Container();
-gameView.x = 200;
-gameView.y = 200;
-var gameWN = 20,gameHN = 20,der= 0;
+var gameWN = 20,gameHN = 20,der= 0,count=0;
 
 stage.addChild(gameView);
 var rectArr = [];
@@ -46,7 +44,7 @@ function render(){
     }
     rectArr[ball[0]][ball[1]].setColor(colorType[2]);
 }
-createjs.Ticker.setFPS(1);
+createjs.Ticker.setFPS(3);
 createjs.Ticker.addEventListener("tick", handleTick);
 function handleTick(event) {
     var start = snake[0];
@@ -75,22 +73,26 @@ function handleTick(event) {
             break;
     }
     snake.push({w:w, h:h});
+    checkfail(w,h);
+    //判断是否吃到了球
     if(start.w==ball[0]&&start.h==ball[1]){
         ball = [Math.round(Math.random()*10),Math.round(Math.random()*10)];
         eat = true;
+        count++;
+        document.getElementsByTagName('span')[0].innerHTML = count;
     } else {
         snake.splice(1,1);
     }
     render();
 }
 window.onkeydown = handleKeyDown;
+window.focus();
 var ARROW_KEY_UP=38;
 var ARROW_KEY_DOWN=40;
 var ARROW_KEY_LEFT=37;
 var ARROW_KEY_RIGHT=39;
 function handleKeyDown(e){
     e = !e ? window.event : e;
-    console.log(e.keyCode);
     switch(e.keyCode){
         case ARROW_KEY_UP:
             der = 3;
@@ -104,5 +106,18 @@ function handleKeyDown(e){
         case ARROW_KEY_RIGHT:
             der = 0;
             break;
+    }
+}
+
+function checkfail(w,h){
+    if(snake.length>1){
+        for(var i=0;i<snake.length-1;i++){
+            if(snake[i].w == w && snake[i].h == h){
+                //alert('you');
+            }
+        }
+    }
+    if(w>gameWN-1 || w<0 || h>gameHN-1 || h<0){
+        //alert('碰到了墙');
     }
 }
