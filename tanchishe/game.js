@@ -76,7 +76,7 @@ function handleTick(event) {
     checkfail(w,h);
     //判断是否吃到了球
     if(start.w==ball[0]&&start.h==ball[1]){
-        ball = [Math.round(Math.random()*10),Math.round(Math.random()*10)];
+        ball = [Math.round(Math.random()*8+1),Math.round(Math.random()*8+1)];
         eat = true;
         count++;
         document.getElementsByTagName('span')[0].innerHTML = count;
@@ -113,11 +113,19 @@ function checkfail(w,h){
     if(snake.length>1){
         for(var i=0;i<snake.length-1;i++){
             if(snake[i].w == w && snake[i].h == h){
-                //alert('you');
+                alert('碰到自己了');
+                snake = [{w:10,h:10}];
+                ball = [13,10];
+                der= 0;
+                count=0;
             }
         }
     }
     if(w>gameWN-1 || w<0 || h>gameHN-1 || h<0){
-        //alert('碰到了墙');
+        alert('碰到了墙');
+        snake = [{w:10,h:10}];
+        ball = [13,10];
+        der= 0;
+        count=0;
     }
 }
